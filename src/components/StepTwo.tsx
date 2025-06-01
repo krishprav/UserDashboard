@@ -4,7 +4,13 @@ export default function StepTwo({
     onChange,
     errors
   }: {
-    data: any;
+    data: {
+      name: string;
+      email: string;
+      street: string;
+      city: string;
+      zip: string;
+    };
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     errors?: Partial<Record<string, string>>;
   }) {

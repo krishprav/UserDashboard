@@ -52,10 +52,11 @@ export default function StepForm() {
 
   const goNext = () => {
     const currentStepFields = step === 0 ? ['name', 'email'] : ['street', 'city', 'zip'];
-    const result = formSchema.pick(Object.fromEntries(currentStepFields.map(f => [f, true])) as any).safeParse(formData);
+    const pickObj = currentStepFields.reduce((acc, key) => ({ ...acc, [key]: true }), {});
+    const result = formSchema.pick(pickObj).safeParse(formData);
     if (!result.success) {
-      const fieldErrors: any = {};
-      result.error.errors.forEach(e => { fieldErrors[e.path[0]] = e.message; });
+      const fieldErrors: Partial<Record<keyof FormData, string>> = {};
+      result.error.errors.forEach(e => { fieldErrors[e.path[0] as keyof FormData] = e.message; });
       setErrors(fieldErrors);
       return;
     }
@@ -72,8 +73,8 @@ export default function StepForm() {
   const handleSubmit = () => {
     const result = formSchema.safeParse(formData);
     if (!result.success) {
-      const fieldErrors: any = {};
-      result.error.errors.forEach(e => { fieldErrors[e.path[0]] = e.message; });
+      const fieldErrors: Partial<Record<keyof FormData, string>> = {};
+      result.error.errors.forEach(e => { fieldErrors[e.path[0] as keyof FormData] = e.message; });
       setErrors(fieldErrors);
       return;
     }

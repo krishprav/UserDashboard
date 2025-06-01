@@ -2,9 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
-import { Plus } from 'lucide-react';
-import { toast } from 'sonner';
 import { UserCard } from '../../components/UserCard';
 import { SkeletonCard } from '../../components/SkeletonCard';
 

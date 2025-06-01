@@ -1,5 +1,5 @@
 // StepThree.tsx
-export default function StepThree({ data }: { data: any }) {
+export default function StepThree({ data }: { data: { name: string; email: string; street: string; city: string; zip: string; } }) {
     return (
       <div className="space-y-4">
         <h2 className="text-xl font-semibold">Step 3: Review & Confirm</h2>

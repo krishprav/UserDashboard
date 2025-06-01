@@ -1,9 +1,25 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { ChevronDown, X, Mail, Phone, MapPin, Globe, Building2, User as UserIcon, Hash, Copy } from 'lucide-react';
+import { ChevronDown, X, Mail, Phone, MapPin, Globe, Building2, User as UserIcon, Copy } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
+
+type User = {
+  name: string;
+  company?: { name?: string; catchPhrase?: string; bs?: string };
+  address: {
+    city: string;
+    street?: string;
+    suite?: string;
+    zipcode?: string;
+    geo?: { lat?: string; lng?: string };
+  };
+  email?: string;
+  phone?: string;
+  website?: string;
+  id?: number;
+};
 
 function getAvatarUrl(name: string) {
   // DiceBear initials avatar
@@ -15,7 +31,7 @@ function getMapUrl(lat: string, lng: string) {
   return `https://static-maps.yandex.ru/1.x/?lang=en-US&ll=${lng},${lat}&z=12&l=map&size=450,200&pt=${lng},${lat},pm2rdm`;
 }
 
-export function UserCard({ user }: { user: any }) {
+export function UserCard({ user }: { user: User }) {
   const [modalOpen, setModalOpen] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
@@ -78,7 +94,7 @@ export function UserCard({ user }: { user: any }) {
         <div className="absolute inset-0 rounded-2xl bg-white/80 dark:bg-[#232b3a]/80 backdrop-blur-xl border border-slate-200 dark:border-slate-700 shadow transition-all duration-300 pointer-events-none" />
         <div className="relative p-5 flex flex-col gap-2 z-10">
           <div className="flex flex-col md:flex-row md:items-center gap-3 mb-1">
-            <img src={getAvatarUrl(user.name)} alt={user.name} className="w-12 h-12 rounded-full border-2 border-blue-500 shadow mx-auto md:mx-0" loading="lazy" />
+            <img src={getAvatarUrl(user.name || '')} alt={user.name} className="w-12 h-12 rounded-full border-2 border-blue-500 shadow mx-auto md:mx-0" loading="lazy" />
             <div className="flex-1 min-w-0">
               <h2 className="text-lg font-bold flex items-center gap-2 flex-wrap">
                 <UserIcon size={20} className="text-blue-500" /> {user.name}
@@ -101,12 +117,12 @@ export function UserCard({ user }: { user: any }) {
             <div className="text-sm text-slate-700 dark:text-slate-200 flex flex-wrap items-center gap-2 break-all">
               <Mail size={16} />
               {user.email}
-              <button onClick={e => { e.stopPropagation(); copyToClipboard(user.email, 'Email'); }} className="ml-1 p-1 rounded hover:bg-blue-100 dark:hover:bg-slate-700 transition"><Copy size={14} /></button>
+              <button onClick={e => { e.stopPropagation(); copyToClipboard(user.email || '', 'Email'); }} className="ml-1 p-1 rounded hover:bg-blue-100 dark:hover:bg-slate-700 transition"><Copy size={14} /></button>
             </div>
             <div className="text-sm text-slate-700 dark:text-slate-200 flex flex-wrap items-center gap-2 break-all">
               <Phone size={16} />
               {user.phone}
-              <button onClick={e => { e.stopPropagation(); copyToClipboard(user.phone, 'Phone'); }} className="ml-1 p-1 rounded hover:bg-blue-100 dark:hover:bg-slate-700 transition"><Copy size={14} /></button>
+              <button onClick={e => { e.stopPropagation(); copyToClipboard(user.phone || '', 'Phone'); }} className="ml-1 p-1 rounded hover:bg-blue-100 dark:hover:bg-slate-700 transition"><Copy size={14} /></button>
             </div>
             <div className="text-sm text-slate-700 dark:text-slate-200 flex flex-wrap items-center gap-2 break-all">
               <MapPin size={16} /> {user.address.city}
@@ -145,7 +161,7 @@ export function UserCard({ user }: { user: any }) {
                 <X size={20} />
               </button>
               <div className="flex flex-col md:flex-row items-center gap-5 mb-6">
-                <img src={getAvatarUrl(user.name)} alt={user.name} className="w-20 h-20 rounded-full border-4 border-blue-500 shadow-lg mx-auto md:mx-0" loading="lazy" />
+                <img src={getAvatarUrl(user.name || '')} alt={user.name} className="w-20 h-20 rounded-full border-4 border-blue-500 shadow-lg mx-auto md:mx-0" loading="lazy" />
                 <div className="flex-1 min-w-0">
                   <h2 className="text-2xl font-bold flex items-center gap-2 flex-wrap">
                     <UserIcon size={26} className="text-blue-500" /> {user.name}
@@ -164,12 +180,10 @@ export function UserCard({ user }: { user: any }) {
                 <div>
                   <div className="font-semibold flex items-center gap-1"><UserIcon size={17}/> Name:</div>
                   <div className="ml-5">{user.name}</div>
-                  <div className="font-semibold flex items-center gap-1 mt-4"><Hash size={17}/> Username:</div>
-                  <div className="ml-5">{user.username}</div>
                   <div className="font-semibold flex items-center gap-1 mt-4"><Mail size={17}/> Email:</div>
-                  <div className="ml-5 flex items-center gap-2">{user.email} <button onClick={() => copyToClipboard(user.email, 'Email')} className="p-1 rounded hover:bg-blue-100 dark:hover:bg-slate-700 transition"><Copy size={14} /></button></div>
+                  <div className="ml-5 flex items-center gap-2">{user.email} <button onClick={() => copyToClipboard(user.email || '', 'Email')} className="p-1 rounded hover:bg-blue-100 dark:hover:bg-slate-700 transition"><Copy size={14} /></button></div>
                   <div className="font-semibold flex items-center gap-1 mt-4"><Phone size={17}/> Phone:</div>
-                  <div className="ml-5 flex items-center gap-2">{user.phone} <button onClick={() => copyToClipboard(user.phone, 'Phone')} className="p-1 rounded hover:bg-blue-100 dark:hover:bg-slate-700 transition"><Copy size={14} /></button></div>
+                  <div className="ml-5 flex items-center gap-2">{user.phone} <button onClick={() => copyToClipboard(user.phone || '', 'Phone')} className="p-1 rounded hover:bg-blue-100 dark:hover:bg-slate-700 transition"><Copy size={14} /></button></div>
                   <div className="font-semibold flex items-center gap-1 mt-4"><Globe size={17}/> Website:</div>
                   <div className="ml-5">{user.website}</div>
                 </div>
@@ -184,13 +198,13 @@ export function UserCard({ user }: { user: any }) {
                     <div>{user.address.city}, {user.address.zipcode}</div>
                   </div>
                   <div className="font-semibold flex items-center gap-1 mt-4"><MapPin size={17}/> Geo:</div>
-                  <div className="ml-5 text-xs text-slate-400">Lat: {user.address.geo?.lat}, Lng: {user.address.geo?.lng}</div>
+                  <div className="ml-5 text-xs text-slate-400 dark:text-slate-500">Lat: {user.address.geo?.lat}, Lng: {user.address.geo?.lng}</div>
                   {/* Map preview */}
                   {user.address?.geo?.lat && user.address?.geo?.lng && (
                     <div className="mt-4">
                       <span className="font-semibold text-xs text-slate-500">Map Preview:</span>
                       <img
-                        src={getMapUrl(user.address.geo.lat, user.address.geo.lng)}
+                        src={getMapUrl(user.address.geo.lat || '', user.address.geo.lng || '')}
                         alt="Map preview"
                         className="rounded-lg mt-1 border border-blue-200 dark:border-slate-700 shadow"
                         width={350}

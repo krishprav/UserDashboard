@@ -4,14 +4,19 @@ export default function FormNav({
     onBack,
     onNext,
     onSubmit,
-    formData,
-    errors
+    formData
   }: {
     step: number;
     onBack: () => void;
     onNext: () => void;
     onSubmit: () => void;
-    formData: any;
+    formData: {
+      name: string;
+      email: string;
+      street: string;
+      city: string;
+      zip: string;
+    };
     errors?: Partial<Record<string, string>>;
   }) {
     const isNextDisabled = () => {
