@@ -1,0 +1,43 @@
+|-- .gitignore
+|-- components.json
+|-- eslint.config.mjs
+|-- next-env.d.ts
+|-- next.config.ts
+|-- package-lock.json
+|-- package.json
+|-- postcss.config.mjs
+|-- public
+    |-- file.svg
+    |-- globe.svg
+    |-- next.svg
+    |-- vercel.svg
+    |-- window.svg
+|-- README.md
+|-- src
+    |-- app
+        |-- dashboard
+            |-- add
+                |-- page.tsx
+            |-- page.tsx
+        |-- favicon.ico
+        |-- globals.css
+        |-- layout.tsx
+        |-- lib
+            |-- types.ts
+        |-- page.tsx
+    |-- components
+        |-- FormNav.tsx
+        |-- SearchInput.tsx
+        |-- SkeletonCard.tsx
+        |-- StepForm.tsx
+        |-- StepOne.tsx
+        |-- StepThree.tsx
+        |-- StepTwo.tsx
+        |-- ui
+            |-- button.tsx
+            |-- card.tsx
+            |-- input.tsx
+        |-- UserCard.tsx
+    |-- lib
+        |-- utils.ts
+|-- tsconfig.json
